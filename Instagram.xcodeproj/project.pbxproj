@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		4B5DC05008A79DC5AAC25416 /* Pods_Instagram.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40CF7AE6C094D175ED68767B /* Pods_Instagram.framework */; };
+		F64C97861C69C0090050B169 /* PhotoDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64C97851C69C0090050B169 /* PhotoDetailsViewController.swift */; };
+		F64C97881C69C8950050B169 /* InfiniteScrollActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64C97871C69C8950050B169 /* InfiniteScrollActivityView.swift */; };
+		F64C978A1C6E12610050B169 /* FullScreenPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64C97891C6E12610050B169 /* FullScreenPhotoViewController.swift */; };
 		F690B3301C5B3739007FDC4A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F690B32F1C5B3739007FDC4A /* AppDelegate.swift */; };
 		F690B3321C5B3739007FDC4A /* PhotosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F690B3311C5B3739007FDC4A /* PhotosViewController.swift */; };
 		F690B3351C5B3739007FDC4A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F690B3331C5B3739007FDC4A /* Main.storyboard */; };
@@ -20,6 +23,9 @@
 		40CF7AE6C094D175ED68767B /* Pods_Instagram.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Instagram.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5087B3FAA84A87D6D13B5A70 /* Pods-Instagram.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Instagram.release.xcconfig"; path = "Pods/Target Support Files/Pods-Instagram/Pods-Instagram.release.xcconfig"; sourceTree = "<group>"; };
 		D40DB170697A80BB8B396EFA /* Pods-Instagram.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Instagram.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Instagram/Pods-Instagram.debug.xcconfig"; sourceTree = "<group>"; };
+		F64C97851C69C0090050B169 /* PhotoDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoDetailsViewController.swift; sourceTree = "<group>"; };
+		F64C97871C69C8950050B169 /* InfiniteScrollActivityView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfiniteScrollActivityView.swift; sourceTree = "<group>"; };
+		F64C97891C6E12610050B169 /* FullScreenPhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FullScreenPhotoViewController.swift; sourceTree = "<group>"; };
 		F690B32C1C5B3739007FDC4A /* Instagram.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Instagram.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F690B32F1C5B3739007FDC4A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F690B3311C5B3739007FDC4A /* PhotosViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosViewController.swift; sourceTree = "<group>"; };
@@ -87,6 +93,8 @@
 				F690B3361C5B3739007FDC4A /* Assets.xcassets */,
 				F690B3381C5B3739007FDC4A /* LaunchScreen.storyboard */,
 				F690B33B1C5B3739007FDC4A /* Info.plist */,
+				F64C97851C69C0090050B169 /* PhotoDetailsViewController.swift */,
+				F64C97891C6E12610050B169 /* FullScreenPhotoViewController.swift */,
 			);
 			path = Instagram;
 			sourceTree = "<group>";
@@ -95,6 +103,7 @@
 			isa = PBXGroup;
 			children = (
 				F6C824711C5B415D0003AEEA /* PhotoCell.swift */,
+				F64C97871C69C8950050B169 /* InfiniteScrollActivityView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -221,8 +230,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F64C97881C69C8950050B169 /* InfiniteScrollActivityView.swift in Sources */,
+				F64C97861C69C0090050B169 /* PhotoDetailsViewController.swift in Sources */,
 				F690B3321C5B3739007FDC4A /* PhotosViewController.swift in Sources */,
 				F6C824721C5B415D0003AEEA /* PhotoCell.swift in Sources */,
+				F64C978A1C6E12610050B169 /* FullScreenPhotoViewController.swift in Sources */,
 				F690B3301C5B3739007FDC4A /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

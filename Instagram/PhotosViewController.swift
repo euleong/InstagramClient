@@ -9,10 +9,12 @@
 import UIKit
 import AFNetworking
 
-class PhotosViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class PhotosViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate {
     
     @IBOutlet weak var tableView: UITableView!
     var photos:[NSDictionary]?
+    var isMoreDataLoading = false
+    var loadingMoreView:InfiniteScrollActivityView?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,8 +23,31 @@ class PhotosViewController: UIViewController, UITableViewDelegate, UITableViewDa
         tableView.delegate = self
         tableView.dataSource = self
         tableView.rowHeight = 320
-    
         
+        // set up infinite scrolling loading indicator
+        let frame = CGRectMake(0, tableView.contentSize.height, tableView.bounds.size.width, InfiniteScrollActivityView.defaultHeight)
+        loadingMoreView = InfiniteScrollActivityView(frame: frame)
+        loadingMoreView!.hidden = true
+        tableView.addSubview(loadingMoreView!)
+        
+        var insets = tableView.contentInset
+        insets.bottom += InfiniteScrollActivityView.defaultHeight
+        tableView.contentInset = insets
+        
+        // refresh controller
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: "refreshControlAction:", forControlEvents: UIControlEvents.ValueChanged)
+        tableView.insertSubview(refreshControl, atIndex: 0)
+        
+        getPhotos()
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    func getPhotos() {
         let clientId = "e05c462ebd86446ea48a5af73769b602"
         let url = NSURL(string:"https://api.instagram.com/v1/media/popular?client_id=\(clientId)")
         let request = NSURLRequest(URL: url!)
@@ -34,6 +59,9 @@ class PhotosViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         let task : NSURLSessionDataTask = session.dataTaskWithRequest(request,
             completionHandler: { (dataOrNil, response, error) in
+                self.isMoreDataLoading = false
+                // stop loading indicator
+                self.loadingMoreView!.stopAnimating()
                 if let data = dataOrNil {
                     if let responseDictionary = try! NSJSONSerialization.JSONObjectWithData(
                         data, options:[]) as? NSDictionary {
@@ -45,11 +73,6 @@ class PhotosViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 }
         });
         task.resume()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -107,6 +130,55 @@ class PhotosViewController: UIViewController, UITableViewDelegate, UITableViewDa
         else {
             return 0
         }
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    }
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        if (!self.isMoreDataLoading) {
+            
+            // calcualte the position of one screen length before the bottom of the results
+            let scrollViewContentHeight = tableView.contentSize.height
+            let scrollOffsetThreshold = scrollViewContentHeight - tableView.bounds.size.height
+            
+            // when the user has scrolled past the threshold, start requesting 
+            if (scrollView.contentOffset.y > scrollOffsetThreshold && tableView.dragging) {
+                self.isMoreDataLoading = true
+                
+                // update position of loadingMoreView and start loading indicator
+                let frame = CGRectMake(0, tableView.contentSize.height, tableView.bounds.size.width, InfiniteScrollActivityView.defaultHeight)
+                loadingMoreView?.frame = frame
+                loadingMoreView!.startAnimating()
+                
+                getPhotos()
+                
+            }
+
+        }
+        
+        
+    }
+    
+    func refreshControlAction(refreshControl: UIRefreshControl) {
+        getPhotos()
+        refreshControl.endRefreshing()
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+        
+        let cell = sender as! UITableViewCell
+        let indexPath = tableView.indexPathForCell(cell)
+        let photo = self.photos![indexPath!.section]
+        let images = photo["images"]
+        let standardImage = images!["standard_resolution"]
+        
+        let photoDetailsViewController = segue.destinationViewController as! PhotoDetailsViewController
+        photoDetailsViewController.photoUrl = standardImage!!["url"] as? String
+        
     }
 
 }
